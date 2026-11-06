@@ -103,9 +103,11 @@ GameObject:
   - component: {fileID: 1515572770703273539}
   - component: {fileID: 7595139906592616115}
   - component: {fileID: 4732670174182792178}
-  - component: {fileID: 623933577105973976}
+  - component: {fileID: 756442073976095823}
   - component: {fileID: 8951308032493740120}
-  m_Layer: 0
+  - component: {fileID: 3208224099912842572}
+  - component: {fileID: 4387078897889288386}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,7 +217,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &623933577105973976
+--- !u!58 &756442073976095823
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,6 +267,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   moveSpeed: 2.5
   targetTag: Player
-  target: {fileID: 0}
-  spriteRenderer: {fileID: 0}
   flipSpriteOnTurn: 1
+--- !u!114 &3208224099912842572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328815420568502567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c3bdf4f096256f4aaef75053aecc907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 30
+--- !u!114 &4387078897889288386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8328815420568502567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c357936c900180941b32bab37cfd03e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackHandler
+  attackDamage: 10
+  attackCooldown: 1

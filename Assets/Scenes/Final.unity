@@ -182,7 +182,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1628,9 +1628,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1528745124}
   - component: {fileID: 1528745123}
-  - component: {fileID: 1528745126}
   - component: {fileID: 1528745125}
   - component: {fileID: 1528745127}
+  - component: {fileID: 1528745126}
+  - component: {fileID: 1528745128}
+  - component: {fileID: 1528745129}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1793,6 +1795,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1528745128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528745122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d608f18c2b120f48aa0c41360948d77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 0
+--- !u!114 &1528745129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528745122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ea01d546838ac44a1bcdd09205a0a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackHandler
+  detectionRadius: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  unarmedDamage: 10
+  unarmedAttackRate: 1
+  unarmedRange: 4
+  hasWeapon: 0
+  weaponDamage: 25
+  weaponAttackRate: 1.5
+  weaponRange: 4
+  hasSkill: 0
+  skillDamage: 40
+  skillCooldown: 3
 --- !u!1 &1932518620
 GameObject:
   m_ObjectHideFlags: 0
