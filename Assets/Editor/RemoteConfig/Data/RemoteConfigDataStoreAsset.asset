@@ -12,6 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: Unity.RemoteConfig.Editor::Unity.RemoteConfig.Editor.RemoteConfigDataStore
-  _rsKeyList: '[]'
-  _rsLastCachedKeyList: '[]'
-  _environments: '[]'
+  _rsKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"7c2e0a21-d4cf-49ba-b530-e0be95127a8e\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"is_christmas_event\",\r\n      \"type\":
+    \"bool\",\r\n      \"value\": false\r\n    }\r\n  },\r\n  {\r\n    \"metadata\":
+    {\r\n      \"entityId\": \"ae69990c-8fe0-40f3-b538-8cd186a85d58\"\r\n    },\r\n   
+    \"rs\": {\r\n      \"key\": \"christmas_max_enemies\",\r\n      \"type\": \"int\",\r\n     
+    \"value\": 50\r\n    }\r\n  }\r\n]"
+  _rsLastCachedKeyList: "[\r\n  {\r\n    \"metadata\": {\r\n      \"entityId\": \"7c2e0a21-d4cf-49ba-b530-e0be95127a8e\"\r\n   
+    },\r\n    \"rs\": {\r\n      \"key\": \"is_christmas_event\",\r\n      \"type\":
+    \"bool\",\r\n      \"value\": false\r\n    }\r\n  },\r\n  {\r\n    \"metadata\":
+    {\r\n      \"entityId\": \"ae69990c-8fe0-40f3-b538-8cd186a85d58\"\r\n    },\r\n   
+    \"rs\": {\r\n      \"key\": \"christmas_max_enemies\",\r\n      \"type\": \"int\",\r\n     
+    \"value\": 50\r\n    }\r\n  }\r\n]"
+  _environments: "[\r\n  {\r\n    \"projectId\": \"04e807cf-fa44-4f3e-9553-0cca031971f3\",\r\n   
+    \"name\": \"production\",\r\n    \"id\": \"faa9f741-a1f4-4ad1-a481-a6c27a7f4d55\",\r\n   
+    \"isDefault\": true,\r\n    \"createdAt\": \"2026-11-08T16:46:56Z\",\r\n    \"updatedAt\":
+    \"2026-11-08T16:46:56Z\"\r\n  },\r\n  {\r\n    \"projectId\": \"04e807cf-fa44-4f3e-9553-0cca031971f3\",\r\n   
+    \"name\": \"development\",\r\n    \"id\": \"afb0d977-ae37-4b73-92b9-abd9470765ea\",\r\n   
+    \"isDefault\": false,\r\n    \"createdAt\": \"2026-11-08T16:49:24Z\",\r\n   
+    \"updatedAt\": \"2026-11-08T16:49:24Z\"\r\n  }\r\n]"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631490925820",
+    "project_id": "finalprojectmobilenotification",
+    "storage_bucket": "finalprojectmobilenotification.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631490925820:android:ac5e3d5e0aceb77d083379",
+        "android_client_info": {
+          "package_name": "com.GenZAllTheWay.FinalProjectMobile329B"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzXwyC16xYTQWFN8eAfKezzx75MLsLXtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
