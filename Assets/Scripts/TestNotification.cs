@@ -19,6 +19,12 @@ public class TestNotification : MonoBehaviour
 
             Debug.Log("Unity Services Initialized!");
 
+            // ---------------------------------------------------------
+            // ส่วนที่เพิ่มเข้ามา: บังคับยอมรับ Consent และสั่งดึง Token ทันทีเพื่อเทส
+            SetAnalyticsConsent(true);
+            RegisterPushNotifications();
+            // ---------------------------------------------------------
+
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
             // Step 2: Listen for incoming notifications
             PushNotificationsService.Instance
@@ -31,7 +37,7 @@ public class TestNotification : MonoBehaviour
         }
     }
 
-    // Step 3: Set Analytics consent from your privacy UI
+    // Step 3: Set Analytics consent
     public void SetAnalyticsConsent(bool userGaveConsent)
     {
         ConsentState consent = EndUserConsent.GetConsentState();
@@ -56,7 +62,6 @@ public class TestNotification : MonoBehaviour
             != ConsentStatus.Granted)
         {
             Debug.LogWarning("Analytics consent required.");
-            
             return;
         }
 
@@ -66,8 +71,8 @@ public class TestNotification : MonoBehaviour
             string pushToken = await PushNotificationsService
                 .Instance.RegisterForPushNotificationsAsync();
 
-            // For testing only
-            Debug.Log("Push Token: " + pushToken);
+            // เปลี่ยนสีข้อความให้เห็นชัดๆ ใน Logcat
+            Debug.Log($"<color=yellow>Push Token: {pushToken}</color>");
 
         }
         catch (Exception e)
@@ -75,7 +80,7 @@ public class TestNotification : MonoBehaviour
             Debug.LogException(e);
         }
 #else
-        Debug.Log("Push Notifications require a mobile build.");
+        Debug.Log("Push Notifications require a mobile build. (รันบน Editor จะไม่เห็น Token)");
 #endif
     }
 
