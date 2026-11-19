@@ -1,0 +1,17 @@
+// Copy to an Editor folder, name the file SwordCatalogEditorLookup.cs.
+// Editor-only convenience. AssetDatabase is unavailable in a built player.
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEngine;
+
+namespace CobaltGraphics.Swords.Examples
+{
+    public static class SwordCatalogEditorLookup
+    {
+        public static Sprite LoadSprite(SwordAsset asset)
+        {
+            return AssetDatabase.LoadAssetAtPath<Sprite>(asset.unity_asset_path);
+        }
+    }
+}
+#endif

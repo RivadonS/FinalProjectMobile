@@ -1,0 +1,20 @@
+{
+  "status": "PASS_ACTUAL_UNITY_CSHARP_EXAMPLE",
+  "engine": "6000.5.4f1",
+  "assets": 1000,
+  "recipes": 990,
+  "recipes_applied": 990,
+  "canonical_fusion_pass": true,
+  "missing_input_no_mutation": true,
+  "unknown_recipe_no_mutation": true,
+  "source_files": [
+    {
+      "file": "Documentation/Examples/SwordCatalogExample.cs.txt",
+      "sha256": "376f5224ab5b6da68b2c42943a5535d9481d45fdc700207ae8c7135d0918d3da"
+    },
+    {
+      "file": "Documentation/Examples/SwordCatalogEditorLookup.cs.txt",
+      "sha256": "82aae5d6a4a2b066a106b018d1216fca8bcc3217794b88f91e1e740d761c72b7"
+    }
+  ]
+}

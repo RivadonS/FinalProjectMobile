@@ -1,0 +1,46 @@
+UNREAL BLUEPRINT INTEGRATION — CSV TABLES
+
+The portable JSON is the complete recipe schema. The two companion Unreal CSV
+tables flatten this pack's zero-extra-cost recipes into Blueprint-friendly fields.
+They are separate from the general asset_index.csv / recipes.csv tables.
+
+1. Create a Blueprint Structure named ST_SwordAssetRow with these variables:
+   AssetId (String), ArchetypeId (String), PathId (String), Tier (Integer),
+   IconPath (String).
+   The CSV RowName column is the DataTable row name; do not add a RowName field.
+
+2. Import Metadata/Unreal/Assets_DataTable.csv as a DataTable using this structure.
+   The RowName and AssetId both use stable identifiers such as:
+   SW_KATANA_NATURE_T3
+
+3. Create ST_SwordRecipeRow with:
+   Kind (String), ArchetypeId (String), InputAItemId (String),
+   InputAQuantity (Integer), InputBItemId (String), InputBQuantity (Integer),
+   OutputItemId (String), OutputQuantity (Integer).
+   Import Metadata/Unreal/Recipes_DataTable.csv using that structure.
+
+4. Start with recipe row FUSE_LONGSWORD_ROOTSTONE:
+   Get Data Table Row -> Break ST_SwordRecipeRow.
+   Look up InputAItemId and InputBItemId in your Inventory Map<String,Integer>.
+   Validate both required quantities before changing either item.
+   If InputBItemId is empty and its quantity is 0, there is no second ingredient.
+   Subtract input quantities, then add OutputQuantity to OutputItemId.
+
+5. Get the output asset's row from the asset table using OutputItemId.
+   Read IconPath. Make Soft Object Path from that exact string.
+   Convert it to a soft object reference, then Async Load Asset.
+   Cast the loaded object to Texture2D and Set Brush From Texture on your UMG Image.
+   Keep a reference to the loaded texture while it is displayed.
+
+6. Confirm the cooked game contains these textures. An object path written in an
+   external JSON/CSV string alone does not guarantee the asset is cooked.
+   Use Asset Manager / Primary Asset Labels or the project's appropriate cook
+   configuration for /Game/SwordsEvolutionFusion1000/Icons.
+
+7. If you customize resource_costs or requirements in JSON, add your validation
+   rules before the inventory transaction. The flattened recipe CSV intentionally
+   represents this pack's default empty cost/requirement arrays. Re-export or
+   extend the DataTable schema for your project-specific rules.
+
+This guide describes integration steps. The artwork project is content-only;
+the guide does not install an inventory, crafting framework or combat system.

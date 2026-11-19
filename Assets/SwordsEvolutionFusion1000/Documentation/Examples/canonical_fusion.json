@@ -1,0 +1,19 @@
+{
+  "recipe_id": "FUSE_LONGSWORD_ROOTSTONE",
+  "kind": "fusion",
+  "archetype_id": "LONGSWORD",
+  "inputs": [
+    {
+      "item_id": "SW_LONGSWORD_NATURE_T3",
+      "quantity": 1
+    },
+    {
+      "item_id": "SW_LONGSWORD_EARTH_T3",
+      "quantity": 1
+    }
+  ],
+  "output_item_id": "SW_LONGSWORD_ROOTSTONE_T1",
+  "output_quantity": 1,
+  "resource_costs": [],
+  "requirements": []
+}

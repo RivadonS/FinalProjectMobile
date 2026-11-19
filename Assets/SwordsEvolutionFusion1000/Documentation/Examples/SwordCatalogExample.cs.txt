@@ -1,0 +1,152 @@
+// Copy to SwordCatalogExample.cs in your own Unity project when ready to use.
+// Unity 6: JsonUtility reader + caller-owned inventory + Sprite registry.
+// Source example; no scene, save system, combat or balanced economy is implied.
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace CobaltGraphics.Swords.Examples
+{
+    [Serializable] public sealed class SwordAsset
+    {
+        public string id;
+        public string archetype_id;
+        public string path_id;
+        public int tier;
+        public string png_256;
+        public string png_512;
+        public string png_1024;
+        public string unity_asset_path;
+        public string unreal_object_path;
+    }
+    [Serializable] public sealed class AssetFile
+    {
+        public string schema_version;
+        public string pack_id;
+        public SwordAsset[] assets;
+    }
+    [Serializable] public sealed class RecipeInput
+    {
+        public string item_id;
+        public int quantity;
+    }
+    [Serializable] public sealed class ResourceCost
+    {
+        public string resource_id;
+        public int quantity;
+    }
+    [Serializable] public sealed class RecipeRequirement
+    {
+        public string kind;
+        public int value;
+    }
+    [Serializable] public sealed class SwordRecipe
+    {
+        public string recipe_id;
+        public string kind;
+        public string archetype_id;
+        public RecipeInput[] inputs;
+        public string output_item_id;
+        public int output_quantity;
+        public ResourceCost[] resource_costs;
+        public RecipeRequirement[] requirements;
+    }
+    [Serializable] public sealed class RecipeFile
+    {
+        public string schema_version;
+        public string pack_id;
+        public SwordRecipe[] recipes;
+    }
+
+    public sealed class SwordCatalog
+    {
+        public readonly Dictionary<string, SwordAsset> Assets = new Dictionary<string, SwordAsset>();
+        public readonly Dictionary<string, SwordRecipe> Recipes = new Dictionary<string, SwordRecipe>();
+        public readonly Dictionary<string, Sprite> Sprites = new Dictionary<string, Sprite>();
+
+        public SwordCatalog(string assetsJson, string recipesJson, IEnumerable<Sprite> sprites)
+        {
+            var assetFile = JsonUtility.FromJson<AssetFile>(assetsJson);
+            var recipeFile = JsonUtility.FromJson<RecipeFile>(recipesJson);
+            if (assetFile == null || assetFile.assets == null || recipeFile == null || recipeFile.recipes == null)
+                throw new ArgumentException("Expected assets.json and recipes.json from this pack.");
+            foreach (var asset in assetFile.assets) Assets.Add(asset.id, asset);
+            foreach (var recipe in recipeFile.recipes) Recipes.Add(recipe.recipe_id, recipe);
+            if (sprites != null)
+                foreach (var sprite in sprites)
+                    if (sprite != null && Assets.ContainsKey(sprite.name)) Sprites.Add(sprite.name, sprite);
+        }
+
+        // Call on the Unity main thread. The caller owns these two distinct stores.
+        // Validation finishes before inventory/resource changes start.
+        public bool TryApplyRecipe(string recipeId, IDictionary<string, int> inventory,
+            IDictionary<string, int> resources, int playerLevel, out string error)
+        {
+            error = null;
+            if (inventory == null || resources == null || ReferenceEquals(inventory, resources))
+            { error = "Provide separate, writable inventory and resource dictionaries."; return false; }
+            SwordRecipe recipe;
+            if (!Recipes.TryGetValue(recipeId, out recipe))
+            { error = "Unknown recipe ID."; return false; }
+            if (!Assets.ContainsKey(recipe.output_item_id) || recipe.output_quantity < 1)
+            { error = "Invalid output."; return false; }
+            foreach (var input in recipe.inputs)
+            {
+                int owned;
+                if (input.quantity < 1 || !inventory.TryGetValue(input.item_id, out owned) || owned < input.quantity)
+                { error = "Missing input: " + input.item_id; return false; }
+            }
+            foreach (var cost in recipe.resource_costs ?? new ResourceCost[0])
+            {
+                int owned;
+                if (cost.quantity < 1 || !resources.TryGetValue(cost.resource_id, out owned) || owned < cost.quantity)
+                { error = "Missing resource: " + cost.resource_id; return false; }
+            }
+            foreach (var requirement in recipe.requirements ?? new RecipeRequirement[0])
+            {
+                if (requirement.kind != "minimum_player_level")
+                { error = "Implement requirement: " + requirement.kind; return false; }
+                if (playerLevel < requirement.value)
+                { error = "Player level too low."; return false; }
+            }
+            int existingOutput;
+            inventory.TryGetValue(recipe.output_item_id, out existingOutput);
+            if (existingOutput > int.MaxValue - recipe.output_quantity)
+            { error = "Output stack would overflow."; return false; }
+            foreach (var input in recipe.inputs) inventory[input.item_id] -= input.quantity;
+            foreach (var cost in recipe.resource_costs ?? new ResourceCost[0]) resources[cost.resource_id] -= cost.quantity;
+            inventory[recipe.output_item_id] = existingOutput + recipe.output_quantity;
+            return true;
+        }
+    }
+
+    // Add this component after copying this file into your code folder.
+    // Assign the two TextAssets, the desired sprites and a SpriteRenderer in Inspector.
+    public sealed class SwordCatalogExample : MonoBehaviour
+    {
+        public TextAsset assetsJson;
+        public TextAsset recipesJson;
+        public Sprite[] swordSprites;
+        public SpriteRenderer resultRenderer;
+
+        private void Start()
+        {
+            var catalog = new SwordCatalog(assetsJson.text, recipesJson.text, swordSprites);
+            var inventory = new Dictionary<string, int>
+            {
+                { "SW_LONGSWORD_NATURE_T3", 1 },
+                { "SW_LONGSWORD_EARTH_T3", 1 }
+            };
+            var resources = new Dictionary<string, int>();
+            const string recipeId = "FUSE_LONGSWORD_ROOTSTONE";
+            string error;
+            if (!catalog.TryApplyRecipe(recipeId, inventory, resources, 1, out error))
+            { Debug.LogWarning(error); return; }
+            var outputId = catalog.Recipes[recipeId].output_item_id;
+            Sprite result;
+            if (resultRenderer != null && catalog.Sprites.TryGetValue(outputId, out result))
+            { resultRenderer.sprite = result; }
+            Debug.Log("Crafted: " + outputId);
+        }
+    }
+}

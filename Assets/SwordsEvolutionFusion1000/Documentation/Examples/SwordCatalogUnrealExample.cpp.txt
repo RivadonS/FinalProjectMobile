@@ -1,0 +1,53 @@
+// Copy to your own C++ module and rename to SwordCatalogUnrealExample.cpp.
+// Build.cs: PrivateDependencyModuleNames.AddRange(new string[] { "Json", "JsonUtilities" });
+#include "SwordCatalogUnrealExample.h"
+#include "Engine/Texture2D.h"
+#include "Misc/FileHelper.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonSerializer.h"
+#include "Dom/JsonObject.h"
+
+bool FSwordPackReader::ReadAssets(const FString& JsonFile,
+    TMap<FString, FSwordPackAsset>& OutAssets, FString& OutError)
+{
+    OutError.Reset();
+    FString Text;
+    if (!FFileHelper::LoadFileToString(Text, *JsonFile))
+    { OutError = TEXT("Cannot read assets.json; stage the metadata file for packaged builds."); return false; }
+    TSharedPtr<FJsonObject> Root;
+    const TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Text);
+    if (!FJsonSerializer::Deserialize(Reader, Root) || !Root.IsValid())
+    { OutError = TEXT("Invalid JSON."); return false; }
+    const TArray<TSharedPtr<FJsonValue>>* Rows = nullptr;
+    if (!Root->TryGetArrayField(TEXT("assets"), Rows))
+    { OutError = TEXT("Missing assets array."); return false; }
+    TMap<FString, FSwordPackAsset> Loaded;
+    for (const auto& Value : *Rows)
+    {
+        const TSharedPtr<FJsonObject>* Row = nullptr;
+        if (!Value->TryGetObject(Row) || !Row || !Row->IsValid())
+        { OutError = TEXT("Invalid asset entry."); return false; }
+        FSwordPackAsset Asset;
+        double Tier = 0;
+        if (!(*Row)->TryGetStringField(TEXT("id"), Asset.Id)
+            || !(*Row)->TryGetStringField(TEXT("archetype_id"), Asset.ArchetypeId)
+            || !(*Row)->TryGetStringField(TEXT("path_id"), Asset.PathId)
+            || !(*Row)->TryGetStringField(TEXT("unreal_object_path"), Asset.UnrealObjectPath)
+            || !(*Row)->TryGetNumberField(TEXT("tier"), Tier)
+            || Tier < 1 || Tier > 5 || Tier != static_cast<double>(static_cast<int32>(Tier))
+            || Loaded.Contains(Asset.Id))
+        { OutError = TEXT("Missing/invalid fields or duplicate ID."); return false; }
+        Asset.Tier = static_cast<int32>(Tier);
+        const FString Key = Asset.Id;
+        Loaded.Add(Key, MoveTemp(Asset));
+    }
+    OutAssets = MoveTemp(Loaded);
+    return true;
+}
+
+UTexture2D* FSwordPackReader::LoadIcon(const FSwordPackAsset& Asset)
+{
+    // For packaged games, ensure the texture directory is cooked or registered
+    // with the Asset Manager. Keep a UPROPERTY reference in the calling UObject.
+    return LoadObject<UTexture2D>(nullptr, *Asset.UnrealObjectPath);
+}

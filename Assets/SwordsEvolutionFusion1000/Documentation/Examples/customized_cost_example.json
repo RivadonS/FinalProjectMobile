@@ -1,0 +1,32 @@
+{
+  "note": "Optional project-specific illustration. YOUR_GAME_FORGE_DUST is not a supplied item or included icon. This recipe is excluded from recipes.json.",
+  "recipe": {
+    "recipe_id": "EXAMPLE_ONLY_ROOTSTONE_WITH_EXTERNAL_COST",
+    "kind": "fusion",
+    "archetype_id": "LONGSWORD",
+    "inputs": [
+      {
+        "item_id": "SW_LONGSWORD_NATURE_T3",
+        "quantity": 1
+      },
+      {
+        "item_id": "SW_LONGSWORD_EARTH_T3",
+        "quantity": 1
+      }
+    ],
+    "output_item_id": "SW_LONGSWORD_ROOTSTONE_T1",
+    "output_quantity": 1,
+    "resource_costs": [
+      {
+        "resource_id": "YOUR_GAME_FORGE_DUST",
+        "quantity": 25
+      }
+    ],
+    "requirements": [
+      {
+        "kind": "minimum_player_level",
+        "value": 3
+      }
+    ]
+  }
+}

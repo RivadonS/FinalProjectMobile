@@ -1,0 +1,23 @@
+// Copy to your own C++ module and rename to SwordCatalogUnrealExample.h.
+#pragma once
+#include "CoreMinimal.h"
+
+class UTexture2D;
+class FJsonObject;
+
+struct FSwordPackAsset
+{
+    FString Id;
+    FString ArchetypeId;
+    FString PathId;
+    int32 Tier = 0;
+    FString UnrealObjectPath;
+};
+
+class FSwordPackReader
+{
+public:
+    // JsonFile is an absolute local path to Metadata/assets.json.
+    static bool ReadAssets(const FString& JsonFile, TMap<FString, FSwordPackAsset>& OutAssets, FString& OutError);
+    static UTexture2D* LoadIcon(const FSwordPackAsset& Asset);
+};

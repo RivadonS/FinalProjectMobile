@@ -1,0 +1,44 @@
+{
+  "generated_utc": "2026-10-30T16:56:26.478649+00:00",
+  "metadata_status": "PASS",
+  "assets": 1000,
+  "recipes": 990,
+  "upgrade_recipes": 800,
+  "elemental_transform_recipes": 70,
+  "fusion_recipes": 120,
+  "graph_nodes": 1000,
+  "graph_acyclic": true,
+  "cross_archetype_recipes": 0,
+  "invalid_recipe_references": 0,
+  "json_schema_validated": true,
+  "json_schema_validator": "Dependency-free structural validation of every keyword used in these self-contained schemas",
+  "svg_maps_xml_validated": 20,
+  "visual_browsers": 10,
+  "technical_png_maps": 20,
+  "embedded_preview_images": 1000,
+  "missing_documentation_links": 0,
+  "missing_png_exports": 0,
+  "image_presence_required": true,
+  "catalog_sha256": "cc71fd5b3340ddb1059b6bbf1c7c31cfc8fe6455305e48f6e6546be08b2e1b35",
+  "example_compilation": "Source examples are provided as .txt; not compiled by metadata generation.",
+  "unity_example_verification": {
+    "status": "PASS_ACTUAL_UNITY_CSHARP_EXAMPLE",
+    "engine": "6000.5.4f1",
+    "assets": 1000,
+    "recipes": 990,
+    "recipes_applied": 990,
+    "canonical_fusion_pass": true,
+    "missing_input_no_mutation": true,
+    "unknown_recipe_no_mutation": true,
+    "source_files": [
+      {
+        "file": "Documentation/Examples/SwordCatalogExample.cs.txt",
+        "sha256": "376f5224ab5b6da68b2c42943a5535d9481d45fdc700207ae8c7135d0918d3da"
+      },
+      {
+        "file": "Documentation/Examples/SwordCatalogEditorLookup.cs.txt",
+        "sha256": "82aae5d6a4a2b066a106b018d1216fca8bcc3217794b88f91e1e740d761c72b7"
+      }
+    ]
+  }
+}

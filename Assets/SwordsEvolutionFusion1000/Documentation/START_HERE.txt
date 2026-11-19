@@ -1,0 +1,26 @@
+SWORDS EVOLUTION & FUSION — DEVELOPER GUIDE
+
+Open START_HERE.html for the full illustrated integration guide and evolution maps.
+
+1000 unique designs = 10 archetypes x 20 paths x 5 visual stages.
+3000 transparent PNG exports at 256, 512 and 1024.
+990 illustrative recipes = 800 upgrades + 70 transformations + 120 fusions.
+
+Metadata/assets.json and asset_index.csv: stable IDs and image/engine paths.
+Metadata/recipes.json and recipes.csv: ingredient and output relationships.
+Metadata/Unreal contains primitive-column Blueprint DataTable CSVs.
+Evolution_Maps contains ten artwork browsers and twenty technical SVG maps.
+Examples contains Unity and Unreal source as .txt files for deliberate integration.
+
+Visual tiers are independent of rarity and combat balance. All inputs are consumed
+only on successful recipe validation; the output is then granted. Default external
+resource costs and requirements are empty. This data is a starting graph for your
+game, not a complete inventory/crafting/combat implementation.
+
+Canonical fusion: SW_LONGSWORD_NATURE_T3 + SW_LONGSWORD_EARTH_T3
+-> SW_LONGSWORD_ROOTSTONE_T1, recipe FUSE_LONGSWORD_ROOTSTONE.
+
+Native Unity icon root: Assets/SwordsEvolutionFusion1000/Icons/
+Native Unreal icon root: /Game/SwordsEvolutionFusion1000/Icons/
+
+Artwork uses ImageGen. Resolution variants are the same designs at different sizes.
